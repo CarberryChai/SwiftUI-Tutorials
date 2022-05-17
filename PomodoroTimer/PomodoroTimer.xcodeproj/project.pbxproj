@@ -55,9 +55,9 @@
 		61C1B958282F8A21008C1C0D /* PomodoroTimer */ = {
 			isa = PBXGroup;
 			children = (
-				61C1B967282F8A62008C1C0D /* views */,
 				61C1B959282F8A21008C1C0D /* PomodoroTimerApp.swift */,
 				61C1B96A282F8AA4008C1C0D /* Store.swift */,
+				61C1B968282F8A89008C1C0D /* Home.swift */,
 				61C1B95B282F8A21008C1C0D /* ContentView.swift */,
 				61C1B95D282F8A27008C1C0D /* Assets.xcassets */,
 				61C1B95F282F8A27008C1C0D /* Preview Content */,
@@ -71,14 +71,6 @@
 				61C1B960282F8A27008C1C0D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		61C1B967282F8A62008C1C0D /* views */ = {
-			isa = PBXGroup;
-			children = (
-				61C1B968282F8A89008C1C0D /* Home.swift */,
-			);
-			path = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

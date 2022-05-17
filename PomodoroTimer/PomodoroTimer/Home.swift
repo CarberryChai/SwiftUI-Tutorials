@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Home: View {
   @EnvironmentObject var store: Store
-
+  
   var body: some View {
     VStack {
       Text("Pomodoro Timer")
@@ -95,15 +95,15 @@ struct Home: View {
             store.addNew = false
           }
         newTimerView()
-          .offset(y: store.addNew ? 0 : 250)
+          .offset(y: store.addNew ? 0 : 280)
       }
     }
-    .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()){ _ in
+    .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
       if store.isStarted {
         store.updateTimer()
       }
     }
-    .alert("Congratulations! You did it hooray 🥳🥳🥳", isPresented: $store.isFinished, actions: {
+    .alert("Congratulations! You did it hooray 🥳🥳🥳", isPresented: $store.isFinished) {
       Button("Add New", role: .cancel) {
         store.stopTimer()
         withAnimation {
@@ -111,12 +111,12 @@ struct Home: View {
         }
       }
       Button("Close", role: .destructive, action: store.stopTimer)
-    })
+    }
+    .padding()
     .background {
       Color("BG")
         .ignoresSafeArea()
     }
-    .padding()
   }
 
   @ViewBuilder
@@ -160,8 +160,8 @@ struct Home: View {
             Capsule().fill(Color.indigo)
           }
       }
-      .disabled(store.second == 0)
-      .opacity(store.second == 0 ? 0.5 : 1)
+      .disabled(store.saveDisabled)
+      .opacity(store.saveDisabled ? 0.5 : 1)
       .padding(.top, 15)
 
     }

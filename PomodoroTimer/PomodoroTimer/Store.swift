@@ -16,6 +16,10 @@ class Store: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
   @Published var hour: Int = 0
   @Published var minute: Int = 0
   @Published var second: Int = 0
+  
+  var saveDisabled: Bool {
+    hour == 0 && minute == 0 && second == 0
+  }
 
   @Published var totalSeconds: Int = 0
   @Published var staticTotalSeconds: Int = 0

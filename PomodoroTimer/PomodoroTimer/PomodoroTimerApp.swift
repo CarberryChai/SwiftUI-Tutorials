@@ -12,6 +12,7 @@ struct PomodoroTimerApp: App {
   @StateObject var store: Store = .init()
   @Environment(\.scenePhase) var phase
   @State var lastActiveTimeStamp = Date()
+  
   var body: some Scene {
     WindowGroup {
       ContentView()
