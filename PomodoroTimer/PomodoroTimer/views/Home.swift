@@ -61,11 +61,17 @@ struct Home: View {
           .animation(.easeInOut, value: store.progress)
 
           Button {
-            withAnimation {
-              store.addNew = true
+            if store.isStarted {
+              store.stopTimer()
+              // cancelling all notifications
+              UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            } else {
+              withAnimation {
+                store.addNew = true
+              }
             }
           } label: {
-            Image(systemName: !store.isStarted ? "timer" : "pause")
+            Image(systemName: !store.isStarted ? "timer" : "stop.fill")
               .font(.largeTitle.bold())
               .foregroundColor(.white)
               .frame(width: 80, height: 80)
@@ -83,12 +89,29 @@ struct Home: View {
       ZStack(alignment: .bottom) {
         Color.black.opacity(store.addNew ? 0.25 : 0)
           .onTapGesture {
+            store.hour = 0
+            store.minute = 0
+            store.second = 0
             store.addNew = false
           }
         newTimerView()
           .offset(y: store.addNew ? 0 : 250)
       }
     }
+    .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()){ _ in
+      if store.isStarted {
+        store.updateTimer()
+      }
+    }
+    .alert("Congratulations! You did it hooray 🥳🥳🥳", isPresented: $store.isFinished, actions: {
+      Button("Add New", role: .cancel) {
+        store.stopTimer()
+        withAnimation {
+          store.addNew = true
+        }
+      }
+      Button("Close", role: .destructive, action: store.stopTimer)
+    })
     .background {
       Color("BG")
         .ignoresSafeArea()
@@ -125,7 +148,7 @@ struct Home: View {
       }
 
       Button {
-
+        store.startTimer()
       } label: {
         Text("Save")
           .font(.title3)
