@@ -38,7 +38,7 @@ struct Home: View {
     }
     .frame(maxHeight: .infinity, alignment: .top)
     .padding()
-    .sheet(isPresented: $store.addNewHabit) {
+    .sheet(isPresented: $store.addNewHabit, onDismiss: store.resetData) {
       AddNewHabit()
     }
   }

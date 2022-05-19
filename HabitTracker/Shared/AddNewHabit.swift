@@ -10,6 +10,7 @@ import SwiftUI
 struct AddNewHabit: View {
   @EnvironmentObject var store: Store
   @Environment(\.self) var env
+  
   var body: some View {
     NavigationView {
       VStack(spacing: 15) {
@@ -82,7 +83,35 @@ struct AddNewHabit: View {
           }.frame(maxWidth: .infinity, alignment: .leading)
           Toggle(isOn: $store.isRemainderOn) {}.labelsHidden()
         }
+
+        HStack(spacing: 12) {
+          Label {
+            Text(store.remainderDate.formatted(date: .omitted, time: .shortened))
+          } icon: {
+            Image(systemName: "clock")
+          }
+          .onTapGesture {
+            withAnimation {
+              store.showDatePicker.toggle()
+            }
+          }
+          .padding(.horizontal)
+          .padding(.vertical, 12)
+          .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Color.gray.opacity(0.1))
+          }
+
+          TextField("Remainder Text", text: $store.remainderText)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .background {
+              RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Color.gray.opacity(0.1))
+            }
+        }
+        .frame(height: store.isRemainderOn ? nil : 0)
+        .opacity(store.isRemainderOn ? 1 : 0)
       }
+      .animation(.easeInOut, value: store.isRemainderOn)
       .frame(maxHeight: .infinity, alignment: .top)
       .padding()
       .navigationBarTitleDisplayMode(.inline)
@@ -97,11 +126,36 @@ struct AddNewHabit: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Done") {
-
-          }.tint(.white)
+            if store.addHabit(context: env.managedObjectContext) {
+              env.dismiss()
+            }
+          }
+          .tint(.white)
+          .disabled(store.doneDisabled())
         }
       }
-    }.preferredColorScheme(.dark)
+    }
+    .preferredColorScheme(.dark)
+    .overlay {
+      if store.showDatePicker {
+        ZStack {
+          Rectangle().fill(.ultraThinMaterial).ignoresSafeArea()
+            .onTapGesture {
+              withAnimation {
+                store.showDatePicker.toggle()
+              }
+            }
+          DatePicker("", selection: $store.remainderDate, displayedComponents: [.hourAndMinute])
+            .datePickerStyle(.wheel)
+            .labelsHidden()
+            .padding()
+            .background {
+              RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1))
+            }
+            .padding()
+        }
+      }
+    }
   }
 }
 

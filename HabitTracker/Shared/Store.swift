@@ -17,4 +17,24 @@ class Store: ObservableObject {
   @Published var isRemainderOn: Bool = false
   @Published var remainderText: String = ""
   @Published var remainderDate: Date = Date()
+  
+  @Published var showDatePicker: Bool = false
+  
+  func addHabit(context: NSManagedObjectContext) -> Bool {
+    return false
+  }
+  
+  func resetData() {
+    title = ""
+    habitColor = "Card-1"
+    isRemainderOn = false
+    remainderText = ""
+    remainderDate = Date()
+  }
+  
+  func doneDisabled() -> Bool {
+    let remainderStatus = isRemainderOn && remainderText.isEmpty
+    
+    return title.isEmpty || weekDays.isEmpty || remainderStatus
+  }
 }
