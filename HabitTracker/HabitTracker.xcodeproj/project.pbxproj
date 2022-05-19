@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		615CC99928366B70009DBDFE /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CC99828366B70009DBDFE /* Setting.swift */; };
+		615CC99A28366B70009DBDFE /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CC99828366B70009DBDFE /* Setting.swift */; };
 		61A1D22628336BAE00261730 /* HabitTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61A1D21328336BAC00261730 /* HabitTracker.xcdatamodeld */; };
 		61A1D22728336BAE00261730 /* HabitTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61A1D21328336BAC00261730 /* HabitTracker.xcdatamodeld */; };
 		61A1D22828336BAE00261730 /* HabitTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A1D21528336BAC00261730 /* HabitTrackerApp.swift */; };
@@ -26,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		615CC99828366B70009DBDFE /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		61A1D21428336BAC00261730 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		61A1D21528336BAC00261730 /* HabitTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTrackerApp.swift; sourceTree = "<group>"; };
 		61A1D21628336BAC00261730 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 				61A1D21528336BAC00261730 /* HabitTrackerApp.swift */,
 				61A1D21628336BAC00261730 /* ContentView.swift */,
 				61A1D23828336BF900261730 /* Home.swift */,
+				615CC99828366B70009DBDFE /* Setting.swift */,
 				61A1D23E28337AFC00261730 /* AddNewHabit.swift */,
 				61A1D23B2833795100261730 /* Store.swift */,
 				61A1D21728336BAC00261730 /* Persistence.swift */,
@@ -202,6 +206,7 @@
 				61A1D23F28337AFC00261730 /* AddNewHabit.swift in Sources */,
 				61A1D23C2833795100261730 /* Store.swift in Sources */,
 				61A1D22828336BAE00261730 /* HabitTrackerApp.swift in Sources */,
+				615CC99928366B70009DBDFE /* Setting.swift in Sources */,
 				61A1D22A28336BAE00261730 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,6 +221,7 @@
 				61A1D24028337AFC00261730 /* AddNewHabit.swift in Sources */,
 				61A1D23D2833795100261730 /* Store.swift in Sources */,
 				61A1D22928336BAE00261730 /* HabitTrackerApp.swift in Sources */,
+				615CC99A28366B70009DBDFE /* Setting.swift in Sources */,
 				61A1D22B28336BAE00261730 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

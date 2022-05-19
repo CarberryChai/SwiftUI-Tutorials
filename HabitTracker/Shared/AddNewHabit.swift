@@ -10,11 +10,13 @@ import SwiftUI
 struct AddNewHabit: View {
   @EnvironmentObject var store: Store
   @Environment(\.self) var env
-  
+
   var body: some View {
     NavigationView {
       VStack(spacing: 15) {
         TextField("Title", text: $store.title)
+          .disableAutocorrection(true)
+          .textInputAutocapitalization(.none)
           .padding(.horizontal)
           .padding(.vertical, 10)
           .background {
@@ -75,14 +77,15 @@ struct AddNewHabit: View {
         }
 
         Divider().padding(.vertical, 15)
-
+        
+        // hiding if notification access is rejected
         HStack {
           VStack(alignment: .leading, spacing: 6) {
             Text("Remainder").fontWeight(.semibold)
             Text("Just notification").font(.caption).foregroundColor(.gray)
           }.frame(maxWidth: .infinity, alignment: .leading)
           Toggle(isOn: $store.isRemainderOn) {}.labelsHidden()
-        }
+        }.opacity(store.notificationAccess ? 1 : 0)
 
         HStack(spacing: 12) {
           Label {
@@ -110,32 +113,48 @@ struct AddNewHabit: View {
         }
         .frame(height: store.isRemainderOn ? nil : 0)
         .opacity(store.isRemainderOn ? 1 : 0)
+        .opacity(store.notificationAccess ? 1 : 0)
       }
       .animation(.easeInOut, value: store.isRemainderOn)
       .frame(maxHeight: .infinity, alignment: .top)
       .padding()
       .navigationBarTitleDisplayMode(.inline)
-      .navigationTitle("Add Habit")
+      .navigationTitle(store.edittingHabit == nil ? "Add Habit" : "Edit Habit")
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Button {
             env.dismiss()
           } label: {
             Image(systemName: "xmark.circle")
-          }.tint(.white)
+          }
         }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button("Done") {
-            if store.addHabit(context: env.managedObjectContext) {
+
+        // delete button
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button {
+            if store.deleteHabit(contxt: env.managedObjectContext) {
               env.dismiss()
             }
+          } label: {
+            Image(systemName: "trash")
           }
-          .tint(.white)
+          .tint(.red)
+          .opacity(store.edittingHabit == nil ? 0 : 1)
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button("Done") {
+            Task {
+              if await store.addHabit(context: env.managedObjectContext) {
+                env.dismiss()
+              }
+            }
+          }
           .disabled(store.doneDisabled())
         }
       }
     }
-    .preferredColorScheme(.dark)
+    .preferredColorScheme(store.isColorSchemeDark ? .dark : .light)
     .overlay {
       if store.showDatePicker {
         ZStack {
