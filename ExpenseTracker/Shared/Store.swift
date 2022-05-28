@@ -24,6 +24,11 @@ class Store: ObservableObject {
   var totalExpense: Double {
     totalSum - totalIncome
   }
+
+  // MARK: Expense
+  @Published var amount: Double = 0
+  @Published var remark: String = ""
+  @Published var type: ExpenseType = .income
   
   lazy var container: NSPersistentContainer = {
     let result = NSPersistentContainer(name: "ExpenseTracker")
@@ -34,7 +39,7 @@ class Store: ObservableObject {
     }
     return result
   }()
-
+  
   init() {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.year, .month], from: Date())
@@ -47,19 +52,15 @@ class Store: ObservableObject {
     let request = NSFetchRequest<Expense>(entityName: "Expense")
     request.sortDescriptors = [NSSortDescriptor(keyPath: \Expense.date, ascending: false)]
     do {
-     expenses =  try container.viewContext.fetch(request)
+      expenses =  try container.viewContext.fetch(request)
     } catch {
       print("load data error: \(error.localizedDescription)")
     }
   }
   var currentMonthRangeString: String {
     currentMonthStartDate.formatted(date: .abbreviated, time: .omitted) + " - "
-      + Date().formatted(date: .abbreviated, time: .omitted)
+    + Date().formatted(date: .abbreviated, time: .omitted)
   }
-  // MARK: Expense
-  @Published var amount: Double = 0
-  @Published var remark: String = ""
-  @Published var type: ExpenseType = .income
 
   func addTransaction() {
     let transaction = Expense(context: container.viewContext)

@@ -10,11 +10,14 @@ import SwiftUI
 struct FilteredDetail: View {
   @EnvironmentObject var store: Store
   @Environment(\.self) var env
+  @Namespace var animation
+  
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
       VStack(spacing: 12) {
         Header
         ExpenseCard()
+        ExpenseTab
       }.padding()
     }
     .navigationBarHidden(true)
@@ -36,6 +39,37 @@ struct FilteredDetail: View {
       IconButton(systemName: "slider.horizontal.3") {
 
       }
+    }
+  }
+
+  var ExpenseTab: some View {
+    HStack(spacing: 0) {
+      ForEach([ExpenseType.income, ExpenseType.expense], id: \.rawValue) { type in
+        Text(type.rawValue)
+          .fontWeight(.semibold)
+          .foregroundColor(store.type == type ? .white : .black)
+          .opacity(store.type == type ? 1 : 0.7)
+          .padding(.vertical, 12)
+          .frame(maxWidth: .infinity)
+          .background {
+            if store.type == type {
+              RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(
+                  LinearGradient(colors: [.pink, .purple, .yellow], startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
+                .matchedGeometryEffect(id: "TAB", in: animation)
+            }
+          }
+          .onTapGesture {
+            withAnimation {
+              store.type = type
+            }
+          }
+      }
+    }
+    .padding(5)
+    .background {
+      RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white)
     }
   }
 
