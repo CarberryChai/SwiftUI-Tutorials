@@ -13,7 +13,7 @@ struct NewTransaction: View {
 
   var body: some View {
     VStack(spacing: 12) {
-      Text("Add Expense")
+      Text("\(store.edittingItem != nil ? "Update" : "Add") Expense")
         .font(.title2)
         .fontWeight(.semibold)
         .opacity(0.7)
