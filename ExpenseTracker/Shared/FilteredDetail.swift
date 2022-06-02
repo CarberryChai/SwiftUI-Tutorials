@@ -11,18 +11,67 @@ struct FilteredDetail: View {
   @EnvironmentObject var store: Store
   @Environment(\.self) var env
   @Namespace var animation
-  
+  @State private var showFilter = false
+  @State private var tabType: ExpenseType = .income
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
       VStack(spacing: 12) {
         Header
         ExpenseCard()
         ExpenseTab
+        VStack(spacing: 15) {
+          Text(store.rangeString)
+            .opacity(0.7)
+          Text(
+            tabType == .income
+              ? store.convertExpenseToCurrency(store.totalIncome) : store.convertExpenseToCurrency(store.totalExpense)
+          )
+          .fontWeight(.bold)
+          .opacity(0.9)
+          .animation(.none, value: store.type)
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background {
+          RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white)
+        }
+        .padding(.vertical, 20)
+
+        ForEach(store.expenses.filter({ $0.type == tabType.rawValue })) { expense in
+          TransactionCard(expense: expense)
+        }
       }.padding()
+    }
+    .overlay {
+      if showFilter {
+        FilterCard
+      }
     }
     .navigationBarHidden(true)
     .background {
       Color("bgc").ignoresSafeArea()
+    }
+  }
+
+  var FilterCard: some View {
+    ZStack {
+      Color.black.opacity(0.2)
+        .onTapGesture {
+          showFilter = false
+        }
+      HStack(spacing: 10) {
+        DatePicker("Start", selection: $store.startDate, displayedComponents: [.date])
+          .datePickerStyle(.compact)
+        Text("-")
+        DatePicker("End", selection: $store.endDate, displayedComponents: [.date])
+          .datePickerStyle(.compact)
+      }
+      .padding(.vertical, 35)
+      .padding(.horizontal)
+      .background {
+        RoundedRectangle(cornerRadius: 20, style: .continuous).fill(.white)
+      }
+      .padding(.horizontal, 15)
     }
   }
 
@@ -37,7 +86,7 @@ struct FilteredDetail: View {
         .frame(maxWidth: .infinity, alignment: .leading)
 
       IconButton(systemName: "slider.horizontal.3") {
-
+        showFilter = true
       }
     }
   }
@@ -47,22 +96,22 @@ struct FilteredDetail: View {
       ForEach([ExpenseType.income, ExpenseType.expense], id: \.rawValue) { type in
         Text(type.rawValue)
           .fontWeight(.semibold)
-          .foregroundColor(store.type == type ? .white : .black)
-          .opacity(store.type == type ? 1 : 0.7)
+          .foregroundColor(tabType == type ? .white : .black)
+          .opacity(tabType == type ? 1 : 0.7)
           .padding(.vertical, 12)
           .frame(maxWidth: .infinity)
           .background {
-            if store.type == type {
+            if tabType == type {
               RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(
                   LinearGradient(colors: [.pink, .purple, .yellow], startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
-                .matchedGeometryEffect(id: "TAB", in: animation)
+                .matchedGeometryEffect(id: "tab", in: animation)
             }
           }
           .onTapGesture {
-            withAnimation {
-              store.type = type
+            withAnimation(.spring()) {
+              tabType = type
             }
           }
       }

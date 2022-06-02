@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Home: View {
   @EnvironmentObject var store: Store
+  @State private var showAdd = false
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
       VStack(spacing: 12) {
@@ -20,6 +21,30 @@ struct Home: View {
     .padding()
     .background {
       Color("bgc").ignoresSafeArea()
+    }
+    .fullScreenCover(
+      isPresented: $showAdd,
+      onDismiss: {
+        store.resetData()
+        store.edittingItem = nil
+      },
+      content: {
+        NewTransaction(show: $showAdd)
+      }
+    )
+    .overlay(alignment: .bottomTrailing) {
+      Button {
+        showAdd = true
+      } label: {
+        Image(systemName: "plus")
+          .font(.title2)
+          .foregroundColor(.white)
+          .padding()
+          .background {
+            Circle().fill(
+              LinearGradient(colors: [.pink, .purple, .yellow], startPoint: .topLeading, endPoint: .bottomTrailing))
+          }
+      }.padding()
     }
   }
 
@@ -61,43 +86,14 @@ struct Home: View {
         .padding(.bottom)
 
       ForEach(store.expenses) { expense in
-        transactionCard(expense: expense)
-      }
-    }.padding(.top)
-  }
-
-  func transactionCard(expense: Expense) -> some View {
-    HStack(spacing: 12) {
-      if let first = expense.remark?.first {
-        Text(String(first))
-          .font(.title.bold())
-          .foregroundColor(.white)
-          .frame(width: 30, height: 30)
-          .background {
-            Circle().fill(Color(expense.color ?? "c-1"))
+        TransactionCard(expense: expense)
+          .onTapGesture {
+            store.edittingItem = expense
+            store.restoreTransaction()
+            showAdd = true
           }
       }
-
-      Text(expense.remark ?? "")
-        .fontWeight(.semibold)
-        .lineLimit(1)
-        .frame(maxWidth: .infinity, alignment: .leading)
-
-      VStack(alignment: .trailing, spacing: 7) {
-        Text(store.convertExpenseToCurrency(expense.type == ".income" ? expense.amount : -expense.amount))
-          .font(.callout)
-          .opacity(0.7)
-          .foregroundColor(expense.type == ".income" ? .green : .red)
-
-        Text(expense.date?.formatted(date: .numeric, time: .omitted) ?? "")
-          .font(.caption)
-          .opacity(0.5)
-      }
-    }
-    .padding()
-    .background {
-      RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white)
-    }
+    }.padding(.top)
   }
 }
 
