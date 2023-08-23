@@ -26,13 +26,8 @@ struct ContentView: View {
     var body: some View {
         VStack {
             header
-            ScrollView(.vertical) {
-                if tasks.isEmpty {
-                    ContentUnavailableView("You don't have task yet.", systemImage: "note.text")
-                } else {
-                    TasksView
-                }
-            }
+
+            TasksView(currentDate: $currentDate)
             .overlay(alignment: .bottomTrailing, content: {
                 Button(action: {
                     showAddTask.toggle()
@@ -47,7 +42,7 @@ struct ContentView: View {
                 })
             })
             .sheet(isPresented: $showAddTask, content: {
-                newTask.presentationDetents([.medium])
+                NewTaskView().presentationDetents([.medium])
             })
             .onAppear {
                 if weekSlider.isEmpty {
@@ -104,21 +99,7 @@ extension ContentView {
             .frame(height: 90)
         }
         .padding(.horizontal, 10)
-        .background()
-    }
-
-    private var TasksView: some View {
-        VStack(alignment: .leading, spacing: 35) {
-            ForEach(tasks) { task in
-                TaskRowView(task: task)
-                    .background {
-                        if tasks.last?.id != task.id {
-                            Rectangle().frame(width: 1).HBox(.leading)
-                                .offset(x: 8)
-                        }
-                    }
-            }
-        }
+        .background(.white, in: .rect)
     }
 
     @ViewBuilder
@@ -171,48 +152,6 @@ extension ContentView {
                         }
                     }
             }
-        }
-    }
-
-    private var newTask: some View {
-        VStack(spacing: 40) {
-            Text("Add New Task")
-                .font(.title.bold())
-
-            TextField("input your task", text: $text, axis: .vertical)
-                .lineLimit(1 ... 3)
-                .padding()
-                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20))
-
-            Spacer()
-
-            Button(action: {
-                let t = Task(content: text.trimmingCharacters(in: .whitespacesAndNewlines))
-                context.insert(t)
-                showAddTask.toggle()
-                text = ""
-            }, label: {
-                Text("Save")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .foregroundStyle(.white)
-                    .background(.blue.gradient, in: RoundedRectangle(cornerRadius: 10))
-            })
-            .disabled(text.isEmpty)
-            .opacity(text.isEmpty ? 0.5 : 1)
-        }
-        .padding(20)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .overlay(alignment: .topTrailing) {
-            Button(role: .destructive, action: {
-                showAddTask.toggle()
-            }, label: {
-                Image(systemName: "xmark")
-                    .font(.title3)
-                    .padding()
-            })
         }
     }
 

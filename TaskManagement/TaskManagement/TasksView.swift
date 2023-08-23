@@ -31,9 +31,18 @@ struct TasksView: View {
             } else {
                 ForEach(tasks) { task in
                     TaskRowView(task: task)
+                        .background {
+                            if tasks.last?.id != task.id {
+                                Rectangle().frame(width: 1).HBox(.leading)
+                                    .offset(x: 8)
+                                    .padding(.bottom, -35)
+                            }
+                        }
                 }
             }
         }
+        .padding([.horizontal], 10)
+        .contentMargins(.vertical, 15)
     }
 }
 

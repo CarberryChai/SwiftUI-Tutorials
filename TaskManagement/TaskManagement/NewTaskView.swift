@@ -23,7 +23,7 @@ struct NewTaskView: View {
                 .padding()
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20))
 
-            DatePicker("Select a date", selection: $selectedDate)
+            DatePicker("Select a date: ", selection: $selectedDate)
                 .datePickerStyle(.compact)
 
             Spacer()
@@ -47,10 +47,11 @@ struct NewTaskView: View {
 extension NewTaskView {
     private var submitButton: some View {
         Button(action: {
-            let t = Task(content: text.trimmingCharacters(in: .whitespacesAndNewlines))
+            let t = Task(content: text.trimmingCharacters(in: .whitespacesAndNewlines), createdAt: selectedDate)
             context.insert(t)
             dismiss()
             text = ""
+            selectedDate = .init()
         }, label: {
             Text("Save")
                 .font(.title2)
