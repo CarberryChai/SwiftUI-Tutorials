@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "chaiutil",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CarberryChai/ChaiUtil",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d1a6345dae39db6a21c838a23ca60270d7b77e95"
+      }
+    }
+  ],
+  "version" : 2
+}
