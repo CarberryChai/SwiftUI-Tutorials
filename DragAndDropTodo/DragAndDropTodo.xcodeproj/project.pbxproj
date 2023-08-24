@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7830CCF32A96E63D008608F5 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830CCF22A96E63D008608F5 /* Todo.swift */; };
+		7830CCF62A971551008608F5 /* KanbanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830CCF52A971551008608F5 /* KanbanView.swift */; };
+		7830CCF92A972245008608F5 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7830CCF82A972245008608F5 /* Algorithms */; };
 		78642DE32A6E186D00369541 /* DragAndDropTodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78642DE22A6E186D00369541 /* DragAndDropTodoApp.swift */; };
 		78642DE52A6E186D00369541 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78642DE42A6E186D00369541 /* ContentView.swift */; };
 		78642DE72A6E187100369541 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78642DE62A6E187100369541 /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7830CCF22A96E63D008608F5 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		7830CCF42A970D98008608F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7830CCF52A971551008608F5 /* KanbanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanView.swift; sourceTree = "<group>"; };
 		78642DDF2A6E186D00369541 /* DragAndDropTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragAndDropTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78642DE22A6E186D00369541 /* DragAndDropTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragAndDropTodoApp.swift; sourceTree = "<group>"; };
 		78642DE42A6E186D00369541 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7830CCF92A972245008608F5 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +59,11 @@
 		78642DE12A6E186D00369541 /* DragAndDropTodo */ = {
 			isa = PBXGroup;
 			children = (
+				7830CCF42A970D98008608F5 /* Info.plist */,
 				78642DE22A6E186D00369541 /* DragAndDropTodoApp.swift */,
 				78642DE42A6E186D00369541 /* ContentView.swift */,
+				7830CCF52A971551008608F5 /* KanbanView.swift */,
+				7830CCF22A96E63D008608F5 /* Todo.swift */,
 				78642DE62A6E187100369541 /* Assets.xcassets */,
 				78642DE82A6E187100369541 /* DragAndDropTodo.entitlements */,
 				78642DE92A6E187100369541 /* Preview Content */,
@@ -85,6 +95,9 @@
 			dependencies = (
 			);
 			name = DragAndDropTodo;
+			packageProductDependencies = (
+				7830CCF82A972245008608F5 /* Algorithms */,
+			);
 			productName = DragAndDropTodo;
 			productReference = 78642DDF2A6E186D00369541 /* DragAndDropTodo.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +126,9 @@
 				Base,
 			);
 			mainGroup = 78642DD62A6E186D00369541;
+			packageReferences = (
+				7830CCF72A972245008608F5 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = 78642DE02A6E186D00369541 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +156,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				78642DE52A6E186D00369541 /* ContentView.swift in Sources */,
+				7830CCF62A971551008608F5 /* KanbanView.swift in Sources */,
+				7830CCF32A96E63D008608F5 /* Todo.swift in Sources */,
 				78642DE32A6E186D00369541 /* DragAndDropTodoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +292,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragAndDropTodo/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -312,6 +331,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragAndDropTodo/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -359,6 +379,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7830CCF72A972245008608F5 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7830CCF82A972245008608F5 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7830CCF72A972245008608F5 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 78642DD72A6E186D00369541 /* Project object */;
 }
