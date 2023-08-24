@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskRowView: View {
-    @Bindable var task: Task
+    var task: Task
     var body: some View {
         HStack(alignment: .top, spacing: 15) {
             Circle().fill(task.isCompleted ? .green : .blue)
