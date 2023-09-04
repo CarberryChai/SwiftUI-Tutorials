@@ -45,7 +45,8 @@ struct NewExpense: View {
                 if !allCategories.isEmpty {
                     Section("Category") {
                         Picker("Category", selection: $category) {
-                            ForEach(allCategories) { c in
+                            let categories = allCategories + [Category(name: "None")]
+                            ForEach(categories) { c in
                                 Text(c.name)
                             }
                         }
