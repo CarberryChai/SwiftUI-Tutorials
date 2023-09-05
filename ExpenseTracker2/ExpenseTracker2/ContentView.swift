@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var curTab: Tab = .Category
+    @State private var curTab: Tab = .Expense
     var body: some View {
         TabView(selection: $curTab) {
             ForEach(Tab.allCases) { tab in

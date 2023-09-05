@@ -20,3 +20,5 @@ final class Category {
         self.name = name
     }
 }
+
+extension Category: Identifiable {}

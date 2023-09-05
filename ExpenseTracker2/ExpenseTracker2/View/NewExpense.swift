@@ -15,9 +15,8 @@ struct NewExpense: View {
     @State private var amount: CGFloat = 0
     @State private var date = Date()
     @State private var category: Category?
-    @Query(animation: .snappy) var allCategories: [Category]
-
     @Environment(\.dismiss) var dismiss
+    @Query() private var allCategories: [Category]
 
     var body: some View {
         NavigationStack {
@@ -43,11 +42,14 @@ struct NewExpense: View {
                 }
 
                 if !allCategories.isEmpty {
-                    Section("Category") {
-                        Picker("Category", selection: $category) {
-                            let categories = allCategories + [Category(name: "None")]
-                            ForEach(categories) { c in
-                                Text(c.name)
+                    HStack {
+                        Text("Category")
+                        Spacer()
+                        Menu(category?.name ?? "None") {
+                            ForEach(allCategories) {cate in
+                                Button(cate.name) {
+                                    category = cate
+                                }
                             }
                         }
                     }
