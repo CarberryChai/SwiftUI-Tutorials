@@ -53,42 +53,8 @@ struct CategoryView: View {
                 }
             }
             .sheet(isPresented: $showNew) {
-                NavigationStack {
-                    VStack {
-                        TextField("name", text: $name)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)
-                            .textFieldStyle(.plain)
-                            .padding()
-                            .background(.ultraThinMaterial, in: .rect(cornerRadius: 10))
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    .navigationTitle("New Category")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel") {
-                                showNew = false
-                            }
-                        }
-                        ToolbarItem(placement: .primaryAction) {
-                            Button("Done") {
-                                let category = Category(name: name)
-                                do {
-                                    context.insert(category)
-                                    try context.save()
-                                } catch {
-                                    print(error.localizedDescription)
-                                }
-                                name = ""
-                                showNew = false
-                            }
-                            .disabled(name.isEmpty)
-                        }
-                    }
-                }
-                .presentationDetents([.height(300)])
+                newCategory
+                    .presentationDetents([.height(200)])
             }
             .alert("Warning", isPresented: $showAlert) {
                 Button("Cancel", role: .cancel) {
@@ -103,6 +69,46 @@ struct CategoryView: View {
                 }
             } message: {
                 Text("Deleting the category will delete all associated expenses.")
+            }
+        }
+    }
+}
+
+extension CategoryView {
+    private var newCategory: some View {
+        NavigationStack {
+            VStack {
+                TextField("name", text: $name)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .textFieldStyle(.plain)
+                    .padding()
+                    .background(.ultraThinMaterial, in: .rect(cornerRadius: 10))
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .navigationTitle("New Category")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        showNew = false
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Done") {
+                        let category = Category(name: name)
+                        do {
+                            context.insert(category)
+                            try context.save()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                        name = ""
+                        showNew = false
+                    }
+                    .disabled(name.isEmpty)
+                }
             }
         }
     }

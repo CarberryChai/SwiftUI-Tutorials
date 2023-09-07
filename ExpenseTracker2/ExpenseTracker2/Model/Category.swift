@@ -10,13 +10,11 @@ import SwiftData
 
 @Model
 final class Category {
-    @Attribute(.unique) var id: String
     @Attribute(.unique) var name: String
 
     @Relationship(deleteRule: .cascade, inverse: \Expense.category) var expenses: [Expense]?
 
     init(name: String) {
-        self.id = UUID().uuidString
         self.name = name
     }
 }
