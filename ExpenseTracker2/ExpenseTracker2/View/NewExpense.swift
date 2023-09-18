@@ -40,19 +40,12 @@ struct NewExpense: View {
                         .datePickerStyle(.graphical)
                         .labelsHidden()
                 }
-
-                if !allCategories.isEmpty {
-                    HStack {
-                        Text("Category")
-                        Spacer()
-                        Menu(category?.name ?? "None") {
-                            ForEach(allCategories) {cate in
-                                Button(cate.name) {
-                                    category = cate
-                                }
-                            }
-                        }
+                // Picker, selection的类型必须于每一个所选择的元素的tag指定类型相同， 不是Optional的，要cast到可选类型。
+                Picker("Category", selection: $category) {
+                    ForEach(allCategories) {c in
+                        Text(c.name).tag(Optional(c))
                     }
+                    Text("None").tag(nil as Category?)
                 }
             }
             .navigationTitle("New Expense")
