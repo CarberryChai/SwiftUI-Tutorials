@@ -6,6 +6,7 @@
 //
 import CoreData
 import Foundation
+import SwiftUI
 
 final class PersistantProvider {
   let persistantContainer: NSPersistentContainer
@@ -44,12 +45,23 @@ extension PersistantProvider {
     }
   }
 
-  func getAllCategories() -> [Category] {
-    let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
-    do {
-      return try persistantContainer.viewContext.fetch(fetchRequest)
-    } catch {
-      return []
-    }
+  func fetchPage<T: NSManagedObject>(_ pageIndex: Int, pageSize: Int, for request: NSFetchRequest<T>,
+                                     using context: NSManagedObjectContext) throws -> [T] {
+    request.fetchLimit = pageSize
+    request.fetchOffset = pageIndex * pageSize
+    return try context.fetch(request)
+  }
+}
+
+
+
+struct PersistantKey: EnvironmentKey {
+  static var defaultValue: PersistantProvider = .init()
+}
+
+extension EnvironmentValues {
+  var persistentProvider: PersistantProvider {
+    get { self[PersistantKey.self]}
+    set { self[PersistantKey.self] = newValue }
   }
 }
